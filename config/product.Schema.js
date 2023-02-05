@@ -29,6 +29,7 @@ const productModel = new mongoose.Schema(
         userRating:{
             type:Number,
             required:true,
+            max:5,
             default:null,
             example:5
         },
@@ -38,10 +39,12 @@ const productModel = new mongoose.Schema(
         },
         discount:{
             type:Number,
+            max:100,
             default:null,
         },
         customerLikes:{
             type:Number,
+            max:10,
             default:null,
         },
         manufacturingDate:{

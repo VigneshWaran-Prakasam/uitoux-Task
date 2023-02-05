@@ -5,6 +5,9 @@ let  moment = require('moment');
 exports.addProucts = function (reqbody) {
   return new Promise(async (resolve, reject) => {
     try {
+      if(!reqbody.data){
+        return resolve ("Invalid payload !!"); 
+      }
       let dbData = await productModel.find({});
       let out = await productExist(dbData, "productName");
     
