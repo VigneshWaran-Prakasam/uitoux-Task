@@ -45,7 +45,7 @@ exports.addProucts = function (reqbody) {
 async function productExist(value, name) {
   let arr = [];
   for (let key of value) {
-    console.log(value);
+   // console.log(value);
     arr.push(key[name]);
   }
   return await arr;
@@ -62,8 +62,6 @@ async function getNextNumber(sequenceName) {
 exports.getProductDeatils = function (query) {
   return new Promise(async (resolve, reject) => {
     try {
-
-      console.log(query);
       let sval=query.search;
       if (sval) {
         let data = await productModel.find(
@@ -102,12 +100,12 @@ exports.getTopRatedProducts = function () {
         let data = await productModel.find({
           prodctType:"Top Rated Products",
         });
-        console.log(data)
         if(data.length == 0){
           resolve ("Product is Not Avaliable");
         }
         let arr=[];
         for(let i =0 ; i<data.length; i++){
+          let formateDate = await formateDateV1(data[i].manufacturingDate);
           let obj={
             ProductID: data[i].productID,
             ProductName: data[i].productName,
@@ -115,7 +113,8 @@ exports.getTopRatedProducts = function () {
             Price: data[i].price,
             BrandName: data[i].brandName,
             UserRating: data[i].userRating,
-            ManufacturingDate:data[i].manufacturingDate,
+            prodctType:data[i].prodctType,
+            ManufacturingDate:formateDate,
           }
           arr.push(obj);
         }
@@ -134,6 +133,7 @@ exports.getSpecialOffers = function () {
         let arr=[];
         for(let i=0; i<data.length; i++){
           if(data[i].discount >= 50 ){
+            let formateDate = await formateDateV1(data[i].manufacturingDate);
             let obj={
             ProductID: data[i].productID,
             ProductName: data[i].productName,
@@ -141,8 +141,9 @@ exports.getSpecialOffers = function () {
             Price: data[i].price,
             BrandName: data[i].brandName,
             UserRating: data[i].userRating,
-            ManufacturingDate:data[i].manufacturingDate,
-            }
+            discount:`${data[i].discount} %` ,
+            ManufacturingDate:formateDate,
+          }
             arr.push(obj);
             
           }
@@ -156,12 +157,15 @@ exports.getSpecialOffers = function () {
   });
 };
 exports.getBestSellers = function () {
+
   return new Promise(async (resolve, reject) => {
     try {
         let data = await productModel.find({});
+
         let arr=[];
         for(let i=0; i<data.length; i++){
           if(data[i].customerLikes >=7 ){
+            let formateDate = await formateDateV1(data[i].manufacturingDate);
             let obj={
             ProductID: data[i].productID,
             ProductName: data[i].productName,
@@ -169,7 +173,8 @@ exports.getBestSellers = function () {
             Price: data[i].price,
             BrandName: data[i].brandName,
             UserRating: data[i].userRating,
-            ManufacturingDate:data[i].manufacturingDate,
+            customerLikes:data[i].customerLikes,
+            ManufacturingDate:formateDate
             }
             arr.push(obj);
           }
