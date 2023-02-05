@@ -1,4 +1,4 @@
-const service = require('../service/product.service')
+const service = require('../service/product.service');
 
 exports.addProducts = async(req,res)=>{
     try

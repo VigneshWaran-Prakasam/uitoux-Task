@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 const dbCredentials = process.env.DB_USERNAME ? `${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}`:"";
 const  dbHost=process.env.DB_HOST;
 const mongoUrl=`mongodb://${dbCredentials}${dbHost}/${process.env.DB_NAME}`;
-console.log(mongoUrl)
+console.log(mongoUrl);
 
 
 if(!mongoUrl){
